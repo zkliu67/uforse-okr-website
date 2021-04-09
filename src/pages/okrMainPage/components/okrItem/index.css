@@ -1,0 +1,39 @@
+.okr-item-header {
+  line-height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.okr-item-object > .bold {
+  font-weight: 500;
+  font-size: 22px;
+  color: rgb(53, 50, 65);
+}
+
+.okr-item-header > .light {
+  font-size: 18px;
+  color: rgba(53, 50, 65,0.8);
+}
+
+.okr-item-object-detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color: rgba(53, 50, 65,0.6);
+}
+
+.okr-item-object-detail > div {
+  margin-right: 40px;
+}
+
+.okr-kr-content {
+  line-height: 28px;
+  padding: 10px 0;
+  font-size: 16px;
+  border-top: 0.1rem solid rgba(215,150,145,0.5);
+}
+.okr-kr-content > span {
+  margin:0 40px 0 20px;
+}

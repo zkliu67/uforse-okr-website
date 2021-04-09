@@ -1,30 +1,13 @@
 import React from 'react';
+import OKRItem from '../okrItem';
 import PropTypes from 'prop-types';
 import './index.css';
 
 const renderOKRItems = (items) => {
   return items.map((item, index) => {
-    const { object, department, weight } = item
     return (
       <div key={`okr-item-${index}`} className='okr-item-wrapper'>
-        <table>
-          <tr>
-            <th>#</th>
-            <th>object</th>
-            <th>department</th>
-            <th>weight</th>
-          </tr>
-          <tr>
-            <td>{index}</td>
-            <td>{object}</td>
-            <td>{department}</td>
-            <td>{weight}</td>
-          </tr>
-          <tr>
-            <td colSpan='3'>Alibaba</td>
-            <td>Hangzhou</td>
-          </tr>
-        </table>
+        <OKRItem dataSource={item} />
       </div>
     )
   })
