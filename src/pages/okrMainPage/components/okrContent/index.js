@@ -12,20 +12,10 @@ const renderOKRItems = (items) => {
     )
   })
 }
-export default function OKRContent(props) {
-  // const { items = [] } = props || {};
-  const items = [
-    {
-      object: '可选择常用字和次常用字，或者选中“用户输入”然后自行输入要随机排列的汉字',
-      department: ['技术部', '运营部'],
-      weight: 0.5
-    },
-    {},
-    {}
-  ]
+export default function OKRContent({dataSource}) {
   return (
     <div>
-      {renderOKRItems(items)}
+      {renderOKRItems(dataSource)}
     </div>
   )
 }

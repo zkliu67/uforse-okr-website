@@ -2,17 +2,25 @@ import React from 'react';
 import './index.css';
 
 export default function OKRItem({dataSource}){
-  const { object, department, weight } = dataSource;
+  const { 
+    target, 
+    department, 
+    startDate,
+    endDate,
+    Assignee,
+    score,
+    krs = []
+  } = dataSource;
   return (
     <div>
       <div className='okr-item-header'>
         <div className='okr-item-object'>
           <div className='bold'>
-            提高页面响应速度和用户体验
+            {target}
           </div>
           <div className='okr-item-object-detail'>
-            <div>目标类型：研发部</div>
-            <div>周期：2021.01.30 - 2021.04.30</div>
+          <div>目标类型：{department}</div>
+            <div>周期：{startDate} - {endDate}</div>
           </div>  
         </div>
         <div className='okr-item-info'>
@@ -20,7 +28,7 @@ export default function OKRItem({dataSource}){
             负责人
           </div>
           <div className='light'>
-            Sherry
+            {Assignee}
           </div>
         </div>
         <div className='okr-item-info'>
@@ -28,24 +36,23 @@ export default function OKRItem({dataSource}){
             评分
           </div>
           <div className='light'>
-            50%
+            {score}%
           </div>
         </div>
       </div>
       <div className='okr-key-results'>
-        <div className='okr-kr-content'>
-          <span>1</span>
-          提高页面访问效率，访问速度达到100ms以内
-          <span>| weight 50%</span>
-        </div>
-        <div className='okr-kr-content'>
-          <span>1</span>
-          提高页面访问效率，访问速度达到100ms以内
-        </div>
-        <div className='okr-kr-content'>
-          <span>1</span>
-          提高页面访问效率，访问速度达到100ms以内
-        </div>
+        {
+          krs.map((krDetail, index) => {
+            const { kr, weight } = krDetail;
+            return (
+              <div className='okr-kr-content' key={`okr-kr-item${index}`}>
+                <span>{index+1}</span>
+                  {kr}
+                <span>| weight {weight}%</span>
+              </div>
+            )
+          })
+        }
       </div>
     </div>
   )
