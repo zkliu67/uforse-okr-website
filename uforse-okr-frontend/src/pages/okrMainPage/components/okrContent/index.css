@@ -1,0 +1,23 @@
+.okr-item-wrapper {
+  background-color: #d9d0c7;
+  padding: 24px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+  color: #353241;
+}
+
+.okr-item-wrapper :last-child {
+  margin-bottom: 0;
+}
+
+.okr-item-wrapper > table {
+  width: 100%;
+}
+
+.okr-item-wrapper > table > tr {
+  line-height: 42px;
+}
+
+.okr-item-wrapper > table > tr > th {
+  text-align: left;
+}
