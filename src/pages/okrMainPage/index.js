@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import OKRContent from './components/okrContent';
 import okrItems from '../../data';
 import './index.css';
@@ -14,9 +15,26 @@ export default class OKRMainPage extends Component {
     }
   }
 
-  componentDidMount() {
-    // axios call
+  renderAllOKRs = () => {
+    /**
+     * 如果添加了api，可以调用axios
+     */
+    // axios.get('调用的后端接口')
+    //   .then(res => {
+    //     this.setState({okrItems: res});
+    //   })
+    //   .catch(e => {
+    //     console.log(e);
+    //   })
+
+    /**
+     * 本地测试
+     */
     this.setState({okrItems: okrItems});
+  }
+
+  componentDidMount() {
+    this.renderAllOKRs();
   }
 
   onSearchInputChange = (e) => {
@@ -24,7 +42,24 @@ export default class OKRMainPage extends Component {
   }
 
   onSearchSubmit = () => {
-    // axios call
+    // API CALL: AXIOS call get okr by employer
+    // axios call search by employerid
+    const { search } = this.state;
+    if (search === '') {
+      this.renderAllOKRs();
+    }
+    else {
+      axios.get('please input the api', {
+        params: {
+          employer: search // https:/xxx.com?employer=xxx
+        }
+      }).then(res => {
+        this.setState({ okrItems: res })
+      }).catch(e => {
+        console.log(e);
+      })
+    }
+    
   }
 
   render() {
