@@ -89,4 +89,15 @@ const okrItems = [
   }
 ];
 
-export default okrItems;
+const employers = [
+  {
+    id: '1',
+    username: 'Kevin',
+    password: 'password'
+  }
+]
+
+export {
+  okrItems,
+  employers
+};

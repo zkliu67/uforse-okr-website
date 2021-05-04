@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import OKRContent from './components/okrContent';
-import okrItems from '../../data';
+import {okrItems} from '../../data';
 import './index.css';
 import { Layout } from 'antd';
-const { Header, Sider, Content } = Layout;
+const { Sider, Content } = Layout;
 
 export default class OKRMainPage extends Component {
   constructor(props) {
@@ -66,7 +66,6 @@ export default class OKRMainPage extends Component {
     const { okrItems, search } = this.state;
     return (
       <Layout>
-        <Header className='header'>Header</Header>
         <Layout>
           <Sider theme='light'>Sider</Sider>
           <Content  className='okr-main-content'>

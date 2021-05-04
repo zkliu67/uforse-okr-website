@@ -1,4 +1,14 @@
 @import 'antd/dist/antd.css';
+#root {
+  height: 100%;
+}
+.ant-layout {
+  height: 100%;
+}
+
+.ant-layout-header {
+  color: white !important;
+}
 
 .App-logo {
   height: 40vmin;
