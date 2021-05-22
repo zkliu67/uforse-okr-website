@@ -1,0 +1,22 @@
+.modal-form {
+  margin-top: 1rem;
+}
+
+.modal-form-krs {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.modal-form-title {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  margin-top: 5rem;
+  font-size: larger;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  margin-top: 0.3rem;
+}
+
+.modal-form-title > span {
+  color: blue;
+  font-weight: 500;
+  cursor: pointer;
+}

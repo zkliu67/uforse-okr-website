@@ -1,42 +1,42 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
-import Employers from '../../routers/employers';
+import { useHistory } from "react-router-dom";
 import { Layout, List } from 'antd';
+import './index.css';
 const { Header } = Layout;
 
-@withRouter
-class SiteHeader extends React.Component {
+function SiteHeader({ employer }){
+  let history = useHistory();
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isAuth: false
-    }
+  const onEmployerLogout = () => {
+    history.push("/login");
   }
 
-  componentDidMount() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const employer = Employers.getEmployer(token);
-      if (employer) {
-        this.setState({isAuth: true, employer});
-      }
-      else {
-        this.setState({isAuth: false});
-      }
-    }
-    else {
-      this.setState({isAuth: false});
-    }
-  }
-
-  render() {
+  const renderHeaderNotAuthed = () => {
     return (
-      <Header>
-        
-      </Header>
-    )  
+      <div className="header-wrapper">
+        <div className="header-item">Sign Up</div>
+        <div className="header-divider">|</div>
+        <div className="header-item">Login</div>
+      </div>
+    )
   }
+  
+  const renderHeaderAuthed = ({username}) => {
+    return (
+      <div className="header-wrapper">
+        <div className="header-item">{username}</div>
+        <div className="header-divider">|</div>
+        <div className="header-item" onClick={onEmployerLogout}>Logout</div>
+      </div>
+    )
+  }
+
+  return (
+    <Header>
+      { employer ? renderHeaderAuthed(employer) : renderHeaderNotAuthed() }
+    </Header>
+  )
+
 }
 
 export default SiteHeader;

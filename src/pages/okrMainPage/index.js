@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import queryString from 'query-string';
 import OKRContent from './components/okrContent';
+import OkrModal from './components/okrModal';
 import {okrItems} from '../../data';
 import './index.css';
 import { Layout } from 'antd';
+import SiteHeader from '../../components/siteHeader';
 const { Sider, Content } = Layout;
 
 export default class OKRMainPage extends Component {
@@ -11,7 +14,8 @@ export default class OKRMainPage extends Component {
     super(props);
     this.state = {
       search: "",
-      okrItems: []
+      okrItems: [],
+      showModal: false
     }
   }
 
@@ -33,7 +37,29 @@ export default class OKRMainPage extends Component {
     this.setState({okrItems: okrItems});
   }
 
+  withAuthenticationChecked = () => {
+    const {
+      location: {search = ''}
+    } = this.props || {};
+    const { id = '' } = queryString.parse(search);
+    const token = localStorage.getItem('token');
+    const employer = JSON.parse(localStorage.getItem('employer'));
+    if (id && token && employer) {
+      if (id === token) {
+        // const employer = Employers.getEmployer(id);
+        this.setState({ employer });
+        return;
+      }
+    }
+    if (token || employer) {
+      localStorage.clear('token');
+      localStorage.clear('employer');
+    }
+    this.props.history.push("/login");
+  }
+
   componentDidMount() {
+    this.withAuthenticationChecked();
     this.renderAllOKRs();
   }
 
@@ -59,13 +85,58 @@ export default class OKRMainPage extends Component {
         console.log(e);
       })
     }
-    
+  }
+
+  onModalDisplay = (id) => {
+    if (id) {
+      const { okrItems = [] } = this.state;
+      const editedItem = okrItems.find((item) => {
+        return item.id === id
+      });
+      if (editedItem) {
+        this.setState({ editedItem });
+      }
+    }
+    this.setState({ showModal: true });
+  }
+
+  onModalClosed = () => {
+    this.setState({ showModal: false });
+    if (this.state.editedItem) {
+      this.setState({ editedItem: null });
+    }
+  }
+
+  onModalSubmit = (newOkr) => {
+    const { okrItems = [] } = this.state;
+    let newOkrItems = [];
+
+    if (newOkr.id) {
+      // modify existing okr
+      newOkrItems = okrItems.map(item => {
+        if (item.id === newOkr.id) {
+          return newOkr;
+        }
+        return item;
+      });
+    } else {
+      // create new okr
+      const compOkr = {
+        ...newOkr,
+        Assignee: this.state.employer.username,
+        score: '--'
+      }
+      newOkrItems = [...okrItems, compOkr];
+    }
+    this.setState({ okrItems: newOkrItems, showModal: false });
   }
 
   render() {
-    const { okrItems, search } = this.state;
+    const { okrItems, search, employer, showModal, editedItem = {} } = this.state;
     return (
+      <>
       <Layout>
+        <SiteHeader employer={employer} />
         <Layout>
           <Sider theme='light'>Sider</Sider>
           <Content  className='okr-main-content'>
@@ -80,16 +151,26 @@ export default class OKRMainPage extends Component {
                   onClick = {this.onSearchSubmit}
                 >Search</div>
               </div>
-              <div className='okr-main-new'>New OKR</div>
+              <div className='okr-main-new' onClick={this.onModalDisplay}>New OKR</div>
             </div>
             {
               okrItems.length === 0 ? 
               <div>No Okr</div> :
-              <OKRContent dataSource={okrItems} />
+              <OKRContent dataSource={okrItems} onModalDisplay={this.onModalDisplay} />
             }
           </Content>
         </Layout>
       </Layout>
+      {
+        showModal && 
+        <OkrModal 
+          showModal={showModal} 
+          okrItem={editedItem}
+          onModalClosed={this.onModalClosed}
+          onModalSubmit={this.onModalSubmit}
+        />
+      }
+      </>
     )
   }
 }

@@ -1,30 +1,30 @@
 import React from 'react';
-import Employers from '../../routers/employers';
-import { Form, Input, Button, Checkbox } from 'antd';
-import './index.css';
-
+import { Form, Input, Button } from 'antd';
+import Employers from '../../../routers/employers';
 
 export default class Login extends React.Component {
-
+  state = {
+    errorMsg: ''
+  }
   onFinish = (values) => {
-    // 1. get login info
     const res = Employers.postLogin(values);
     if (res.success) {
       const { id = '' } = res.result || {};
       localStorage.setItem('token', id);
-      return;
+      localStorage.setItem('employer', JSON.stringify(res.result));
+      this.props.history.push(`/main-okr?id=${id}`);      
     }
     else {
-      // error 处理机制。
-      console.log(res.result);
+      this.setState({ errorMsg: res.result });
     }
   };
 
   onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    this.setState({ errorMsg: errorInfo });
   };
 
   render() {
+    const { errorMsg } = this.state;
     return (
       <div className='login-wrapper'>
         <Form
@@ -34,6 +34,7 @@ export default class Login extends React.Component {
           onFinish={this.onFinish}
           onFinishFailed={this.onFinishFailed}
         >
+          { errorMsg && <div>{errorMsg}</div> }
           <Form.Item
             label="Username"
             name="username"
@@ -45,7 +46,7 @@ export default class Login extends React.Component {
           <Form.Item
             label="Password"
             name="password"
-            rules={[{ required: true, message: 'Please input your password!' }]}
+            rules={[{ required: true, message: 'Please input your object!' }]}
           >
             <Input.Password />
           </Form.Item>
@@ -60,4 +61,3 @@ export default class Login extends React.Component {
     )
   }
 }
-

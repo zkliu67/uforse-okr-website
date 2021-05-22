@@ -1,39 +1,19 @@
+import React from 'react';
 import {BrowserRouter,Route,Switch} from 'react-router-dom';
 import SiteHeader from './components/siteHeader';
 import OKRMainPage from './pages/okrMainPage';
-import Login from './pages/login';
+import Authentication from './pages/Authentication';
 import './App.css';
 import { Layout } from 'antd';
 
-const isAuth = () => {
-  const token = localStorage.getItem('token');
-    if (token) {
-      const employer = Employers.getEmployer(token);
-      if (employer) {
-        this.setState({isAuth: true, employer});
-      }
-      else {
-        this.setState({isAuth: false});
-      }
-    }
-    else {
-      this.setState({isAuth: false});
-    }
-}
-
-function App() {
+export default function App() {
   return (
-    <Layout>
-      <SiteHeader />
-      <BrowserRouter>
-        <Switch>
-          <Route path='/main-okr' component={OKRMainPage}></Route>
-          <Route path='/login' component={Login} />
-        </Switch>
-      </BrowserRouter>  
-    </Layout>
-    
+    <BrowserRouter>
+      <Switch>
+        <Route path='/main-okr' component={OKRMainPage} />
+        <Route path='/login' component={Authentication} />
+        <Route path='/register' component={Authentication} />
+      </Switch>
+    </BrowserRouter>             
   );
 }
-
-export default App;

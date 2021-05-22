@@ -10,6 +10,13 @@
   font-weight: 500;
   font-size: 22px;
   color: rgb(53, 50, 65);
+  cursor: pointer;
+}
+
+.okr-item-object > .bold > span {
+  font-size: 14px;
+  font-weight: 300;
+  color: blue;
 }
 
 .okr-item-header > .light {

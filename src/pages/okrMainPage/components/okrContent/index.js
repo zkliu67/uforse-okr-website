@@ -1,21 +1,20 @@
 import React from 'react';
 import OKRItem from '../okrItem';
-import PropTypes from 'prop-types';
 import './index.css';
 
-const renderOKRItems = (items) => {
-  return items.map((item, index) => {
+const renderOKRItems = ({dataSource: items, ...props}) => {
+  return items.map(item => {
     return (
-      <div key={`okr-item-${index}`} className='okr-item-wrapper'>
-        <OKRItem dataSource={item} />
+      <div key={`okr-item-${item.id}`} className='okr-item-wrapper'>
+        <OKRItem dataSource={item} {...props} />
       </div>
     )
   })
 }
-export default function OKRContent({dataSource}) {
+export default function OKRContent(props) {
   return (
     <div>
-      {renderOKRItems(dataSource)}
+      {renderOKRItems({...props})}
     </div>
   )
 }
